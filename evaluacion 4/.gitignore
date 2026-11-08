@@ -1,0 +1,17 @@
+# Entornos virtuales (se crean por sistema operativo, no se comparten)
+.venv/
+venv/
+
+# Dataset (se descarga de Kaggle) y caché del notebook
+UNSW-NB15*.csv
+data/
+.cache_ml/
+
+# Jupyter / Python
+.ipynb_checkpoints/
+__pycache__/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
