@@ -1,0 +1,50 @@
+{
+  "dataset": {
+    "filas_originales": 340693,
+    "filas_unicas": 142440,
+    "features": 39,
+    "duplicados_exactos": 198253,
+    "sin_proto_service_state": true,
+    "sin_clase_normal": true
+  },
+  "muestra_clustering": 25000,
+  "pca_components_90": 2,
+  "pca_pc1_pc2_variance": 0.9999949998848241,
+  "best_kmeans_k": 5,
+  "best_gmm_components": 8,
+  "best_gmm_covariance": "diag",
+  "clustering": [
+    {
+      "Modelo": "K-Means (k=5)",
+      "Clusters": 5,
+      "Silhouette": 0.9976731542774196,
+      "Davies-Bouldin": 0.04215211974842303,
+      "Calinski-Harabasz": 374685.1888477833,
+      "ARI (post-hoc)": -0.002451464730738599,
+      "NMI (post-hoc)": 0.004165824056037772,
+      "Homogeneidad": 0.0021379600828309153,
+      "Completitud": 0.08089627848175379,
+      "V-measure": 0.004165824056037772,
+      "Pureza": 0.6146
+    },
+    {
+      "Modelo": "GMM (k=8, diag)",
+      "Clusters": 8,
+      "Silhouette": 0.8037356399142891,
+      "Davies-Bouldin": 0.8409654720707198,
+      "Calinski-Harabasz": 100198.7631709551,
+      "ARI (post-hoc)": 0.023099732609937036,
+      "NMI (post-hoc)": 0.056759965245433544,
+      "Homogeneidad": 0.03956147223584279,
+      "Completitud": 0.10041183540199353,
+      "V-measure": 0.05675996524543353,
+      "Pureza": 0.61844
+    }
+  ],
+  "anomaly_thresholds": {
+    "kmeans_p99": 12251.654252902448,
+    "gmm_p99": 20.25925554921712
+  },
+  "mejor_silhouette": "K-Means (k=5)",
+  "runtime_minutes": 1.077661363283793
+}

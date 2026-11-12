@@ -1,0 +1,148 @@
+{
+  "dataset": {
+    "filas_originales": 340693,
+    "columnas": 40,
+    "features": 39,
+    "faltantes": 0,
+    "duplicados_exactos": 198253,
+    "filas_unicas": 142440,
+    "clases_originales": {
+      "Backdoor": 95494,
+      "Probe": 72789,
+      "Worm": 60855,
+      "Generic": 57309,
+      "DoS": 54246
+    },
+    "clases_unicas": {
+      "Backdoor": 87523,
+      "Worm": 27892,
+      "Probe": 19203,
+      "Generic": 6110,
+      "DoS": 1712
+    },
+    "sin_proto_service_state": true,
+    "sin_clase_normal": true
+  },
+  "splits": {
+    "train": 99708,
+    "validacion": 21366,
+    "prueba": 21366,
+    "lr_grid_train": 30000,
+    "svm_grid_train": 12000
+  },
+  "variables_seleccionadas": [
+    "sbytes",
+    "dbytes",
+    "smean",
+    "dmean",
+    "sttl",
+    "ct_state_ttl",
+    "dttl",
+    "sload",
+    "dinpkt",
+    "rate",
+    "synack",
+    "dload",
+    "tcprtt",
+    "dur",
+    "dpkts",
+    "ct_srv_dst",
+    "ackdat",
+    "ct_srv_src",
+    "sinpkt",
+    "djit",
+    "sjit",
+    "dloss",
+    "spkts",
+    "sloss",
+    "ct_dst_src_ltm",
+    "ct_dst_ltm",
+    "ct_dst_sport_ltm"
+  ],
+  "supervisado_multiclase": [
+    {
+      "Modelo": "Logistic Regression",
+      "Accuracy": 0.69708883272489,
+      "Balanced Accuracy": 0.7492998092477667,
+      "Precision macro": 0.6000026880636373,
+      "Recall macro": 0.7492998092477667,
+      "F1 macro": 0.5999193844166976,
+      "ROC-AUC OVR macro": 0.9401643981265149,
+      "PR-AUC macro": 0.6990158249048809
+    },
+    {
+      "Modelo": "SVM RBF",
+      "Accuracy": 0.8713844425723112,
+      "Balanced Accuracy": 0.8326382452633914,
+      "Precision macro": 0.7479885033247387,
+      "Recall macro": 0.8326382452633914,
+      "F1 macro": 0.7677205645620316,
+      "ROC-AUC OVR macro": 0.9355605255781185,
+      "PR-AUC macro": 0.7639062057203944
+    }
+  ],
+  "mejor_supervisado": "SVM RBF",
+  "generic_vs_resto": [
+    {
+      "Modelo": "Logistic Regression",
+      "Umbral": 0.12495678503618557,
+      "F1 validación": 0.9955813783170179,
+      "Precision": 0.9937609670501072,
+      "Recall": 0.9969682151589242,
+      "F1": 0.99536200751843,
+      "ROC-AUC": 0.9976355153158732,
+      "PR-AUC": 0.9998933125650498
+    },
+    {
+      "Modelo": "SVM RBF",
+      "Umbral": 0.7663169506817531,
+      "F1 validación": 0.9982179039621122,
+      "Precision": 0.9973166804898278,
+      "Recall": 0.9996088019559902,
+      "F1": 0.9984614257454758,
+      "ROC-AUC": 0.9989119270560851,
+      "PR-AUC": 0.9999487751470992
+    },
+    {
+      "Modelo": "One-Class SVM",
+      "Umbral": 0.0,
+      "F1 validación": 0.9997799887549809,
+      "Precision": 0.9995600097775605,
+      "Recall": 0.9998044009779951,
+      "F1": 0.9996821904412664,
+      "ROC-AUC": 0.9999270774388487,
+      "PR-AUC": 0.9999967188238327
+    }
+  ],
+  "one_class_best": {
+    "nu": 0.01,
+    "gamma": 0.01,
+    "threshold": 0.0,
+    "val_f1": 0.9997799887549809
+  },
+  "top_mi_features": [
+    "sbytes",
+    "dbytes",
+    "smean",
+    "dmean",
+    "sttl",
+    "ct_state_ttl",
+    "dttl",
+    "sload",
+    "dinpkt",
+    "rate"
+  ],
+  "top_permutation_features": [
+    "ct_dst_sport_ltm",
+    "ct_srv_dst",
+    "dttl",
+    "sload",
+    "dmean",
+    "sttl",
+    "dload",
+    "dloss",
+    "smean",
+    "dpkts"
+  ],
+  "runtime_minutes": 4.713465181986491
+}
