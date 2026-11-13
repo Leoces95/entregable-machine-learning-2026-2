@@ -8,43 +8,43 @@
     "sin_clase_normal": true
   },
   "muestra_clustering": 25000,
-  "pca_components_90": 2,
-  "pca_pc1_pc2_variance": 0.9999949998848241,
-  "best_kmeans_k": 5,
-  "best_gmm_components": 8,
-  "best_gmm_covariance": "diag",
+  "pca_components_90": 10,
+  "pca_pc1_pc2_variance": 0.5137189980317043,
+  "best_kmeans_k": 8,
+  "best_gmm_components": 7,
+  "best_gmm_covariance": "tied",
   "clustering": [
     {
-      "Modelo": "K-Means (k=5)",
-      "Clusters": 5,
-      "Silhouette": 0.9976731542774196,
-      "Davies-Bouldin": 0.04215211974842303,
-      "Calinski-Harabasz": 374685.1888477833,
-      "ARI (post-hoc)": -0.002451464730738599,
-      "NMI (post-hoc)": 0.004165824056037772,
-      "Homogeneidad": 0.0021379600828309153,
-      "Completitud": 0.08089627848175379,
-      "V-measure": 0.004165824056037772,
-      "Pureza": 0.6146
+      "Modelo": "K-Means (k=8)",
+      "Clusters": 8,
+      "Silhouette": 0.427538234407266,
+      "Davies-Bouldin": 0.7898798022725942,
+      "Calinski-Harabasz": 10065.85722833435,
+      "ARI (post-hoc)": 0.10898832593989265,
+      "NMI (post-hoc)": 0.24401332312221588,
+      "Homogeneidad": 0.31401623069838386,
+      "Completitud": 0.19953209704940056,
+      "V-measure": 0.24401332312221596,
+      "Pureza": 0.66432
     },
     {
-      "Modelo": "GMM (k=8, diag)",
-      "Clusters": 8,
-      "Silhouette": 0.8037356399142891,
-      "Davies-Bouldin": 0.8409654720707198,
-      "Calinski-Harabasz": 100198.7631709551,
-      "ARI (post-hoc)": 0.023099732609937036,
-      "NMI (post-hoc)": 0.056759965245433544,
-      "Homogeneidad": 0.03956147223584279,
-      "Completitud": 0.10041183540199353,
-      "V-measure": 0.05675996524543353,
-      "Pureza": 0.61844
+      "Modelo": "GMM (k=7, tied)",
+      "Clusters": 7,
+      "Silhouette": 0.3904955867577148,
+      "Davies-Bouldin": 0.7645840550122251,
+      "Calinski-Harabasz": 8073.310662449735,
+      "ARI (post-hoc)": 0.08135375396628608,
+      "NMI (post-hoc)": 0.2846747139604217,
+      "Homogeneidad": 0.32552429740084987,
+      "Completitud": 0.2529343413809032,
+      "V-measure": 0.2846747139604217,
+      "Pureza": 0.64896
     }
   ],
   "anomaly_thresholds": {
-    "kmeans_p99": 12251.654252902448,
-    "gmm_p99": 20.25925554921712
+    "kmeans_p99": 7.6945995112843235,
+    "gmm_p99": 39.426119162779656
   },
-  "mejor_silhouette": "K-Means (k=5)",
-  "runtime_minutes": 1.077661363283793
+  "mejor_silhouette": "K-Means (k=8)",
+  "runtime_minutes": 1.8867735425631205
 }
