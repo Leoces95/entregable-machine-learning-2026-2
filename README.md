@@ -18,6 +18,8 @@ El archivo que usamos (`UNSW-NB15_Dataset2.csv`) tiene estas características:
 | Variables de entrada | 39, todas numéricas |
 | Variable objetivo | `attack` (5 tipos de ataque) |
 | Valores faltantes | 0 |
+| Duplicados exactos | 198.253 (58 %) |
+| Registros únicos | 142.440 |
 
 | Ataque | Registros originales |
 |---|---:|
@@ -26,6 +28,8 @@ El archivo que usamos (`UNSW-NB15_Dataset2.csv`) tiene estas características:
 | Worm | 60.855 |
 | Generic | 57.309 |
 | DoS | 54.246 |
+
+Después de quitar duplicados, Backdoor queda como la clase mayoritaria (cerca del 61 % de los registros únicos) y DoS como la minoritaria.
 
 Dos diferencias frente al UNSW-NB15 original condicionan el planteamiento:
 
@@ -112,3 +116,29 @@ El SVM es el mejor modelo: sube el F1 macro de 0,60 a 0,77. La regresión logís
 | One-Class SVM | 0,0075 | 0,9996 | 0,9998 | 0,9997 | 0,9999 | 1,0000 |
 
 Los umbrales se ajustaron sobre **validación** maximizando F1 y luego se aplicaron a prueba. Generic se separa casi perfectamente del resto porque tiene un patrón muy marcado en TTL y tamaño de paquetes; por eso los tres modelos superan 0,995.
+
+## 6. Aprendizaje no supervisado (`02_no_supervisado_unsw_nb15.ipynb`)
+
+### Metodología
+
+1. La columna `attack` no entra en ningún modelo. Solo se usa para tomar una muestra estratificada y, al final, para interpretar los grupos.
+2. Muestra de 25.000 registros únicos, para que t-SNE, Silhouette y GMM corran en tiempos razonables.
+3. Se excluyen `stcpb` y `dtcpb`, se aplica `log1p` y luego `StandardScaler`. No se usa `RobustScaler` porque muchas variables tienen IQR = 0 y quedarían sin escalar, dominando las distancias.
+4. PCA conserva el 90 % de la varianza: se necesitan **10 componentes** (las dos primeras explican el 51 %).
+5. **K-Means:** k entre 2 y 8, elegido con un ranking conjunto de Silhouette, Davies-Bouldin y Calinski-Harabasz; la inercia (codo) se muestra como apoyo.
+6. **GMM:** entre 2 y 8 componentes con covarianza `diag` o `tied`, elegido por el menor BIC; AIC se reporta como contraste.
+7. Anomalías: registros por encima del percentil 99 de distancia al centroide (K-Means) o de log-verosimilitud negativa (GMM).
+8. PCA (varianza y biplot) y t-SNE se usan para visualizar.
+
+### Resultados
+
+| Modelo | Clusters | Silhouette | Davies-Bouldin | Calinski-Harabasz | ARI | NMI | Pureza |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| K-Means | 8 | **0,428** | 0,790 | **10.066** | **0,109** | 0,244 | **0,664** |
+| GMM (covarianza `tied`) | 7 | 0,390 | **0,765** | 8.073 | 0,081 | **0,285** | 0,649 |
+
+Lectura de los resultados:
+
+- **Calidad de los grupos:** los dos modelos encuentran grupos razonablemente separados (Silhouette cerca de 0,4). K-Means es algo más compacto; GMM tiene un Davies-Bouldin un poco mejor.
+- **Relación con los ataques:** es baja. Con ARI de 0,11 y 0,08, los grupos no reproducen las cinco categorías. La pureza (0,66 y 0,65) apenas supera el 61 % que se obtendría diciendo "Backdoor" para todo.
+- **Interpretación:** los algoritmos agrupan por forma de tráfico (tamaño, tiempos, TTL, contadores), y un mismo tipo de ataque puede verse de varias formas, mientras que ataques distintos pueden compartir perfil. Por eso hay más grupos (7–8) que tipos de ataque (5).
