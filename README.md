@@ -45,6 +45,7 @@ evaluacion 4/
 ├── 02_no_supervisado_unsw_nb15.ipynb
 ├── requirements.txt
 ├── README.md
+├── presentacion_apoyo_video.pptx
 ├── resultados/
 │   ├── supervisado/
 │   └── no_supervisado/
@@ -61,12 +62,13 @@ evaluacion 4/
    .venv\Scripts\activate          # Windows  (Linux/Mac: source .venv/bin/activate)
    python -m pip install -r requirements.txt
    ```
-2. Copiar `UNSW-NB15_Dataset2.csv` en la carpeta del notebook, en `data/` o en la carpeta padre. El notebook lo busca en esos tres lugares.
+2. Copiar `UNSW-NB15_Dataset2.csv` en la carpeta del notebook, en `data/` o en la carpeta padre. El notebook lo busca en esos tres lugares. El CSV no se versiona (está en `.gitignore`).
 3. Ejecutar los notebooks. Son independientes y pueden correr en cualquier orden:
    ```bash
-   python 01_supervisado_unsw_nb15.ipynb 
-   python 02_no_supervisado_unsw_nb15.ipynb 
+   jupyter nbconvert --to notebook --execute --inplace 01_supervisado_unsw_nb15.ipynb
+   jupyter nbconvert --to notebook --execute --inplace 02_no_supervisado_unsw_nb15.ipynb
    ```
+   También pueden abrirse en JupyterLab y ejecutarse con *Run All Cells*.
    Las carpetas `resultados/` y `visualizaciones/` se crean solas.
 
 Se usa una semilla fija (`RANDOM_STATE = 42`) en particiones, muestreos y modelos.
@@ -142,3 +144,24 @@ Lectura de los resultados:
 - **Calidad de los grupos:** los dos modelos encuentran grupos razonablemente separados (Silhouette cerca de 0,4). K-Means es algo más compacto; GMM tiene un Davies-Bouldin un poco mejor.
 - **Relación con los ataques:** es baja. Con ARI de 0,11 y 0,08, los grupos no reproducen las cinco categorías. La pureza (0,66 y 0,65) apenas supera el 61 % que se obtendría diciendo "Backdoor" para todo.
 - **Interpretación:** los algoritmos agrupan por forma de tráfico (tamaño, tiempos, TTL, contadores), y un mismo tipo de ataque puede verse de varias formas, mientras que ataques distintos pueden compartir perfil. Por eso hay más grupos (7–8) que tipos de ataque (5).
+
+## 7. Supervisado vs. no supervisado
+
+- **Uso de etiquetas:** el supervisado aprende directamente qué ataque es cada conexión y logra un F1 macro de 0,77. El no supervisado agrupa por parecido y sus grupos solo coinciden parcialmente con los ataques (ARI ≈ 0,1).
+- **Qué aporta cada uno:** el supervisado sirve para clasificar ataques conocidos. El no supervisado muestra perfiles de tráfico y registros raros que un analista puede revisar, aunque no tenga etiqueta.
+- **Uso combinado:** en un sistema real se usarían juntos. El clasificador etiqueta lo conocido y la detección de anomalías avisa sobre lo que no se parece a nada visto.
+- **Reducción de dimensionalidad:** PCA necesita 10 componentes para el 90 % de la varianza, así que la información está repartida en muchas variables. t-SNE sirve para ver vecindades, pero no conserva distancias globales.
+- **Limitaciones:** sin tráfico normal no se puede medir la tasa de falsas alarmas sobre tráfico legítimo, y sin `proto`, `service` y `state` se pierde información útil para separar ataques.
+
+## 8. Conclusiones
+
+1. Quitar el 58 % de duplicados cambió el balance de clases y evitó métricas infladas.
+2. El SVM RBF es el mejor clasificador multiclase: F1 macro 0,77 y accuracy 0,87, frente a 0,60 y 0,70 de la regresión logística.
+3. Generic se distingue del resto con F1 por encima de 0,995 en los tres modelos.
+4. En el clustering, el escalado fue decisivo: con `RobustScaler` unas pocas variables dominaban y los grupos no tenían sentido. Con `log1p` y `StandardScaler`, K-Means (k = 8) y GMM (7 componentes) encuentran perfiles razonables.
+5. Los grupos naturales del tráfico no corresponden a las categorías de ataque (ARI ≈ 0,1), lo que justifica usar etiquetas cuando están disponibles y dejar el clustering para exploración y anomalías.
+
+## 9. Referencias
+
+- Moustafa, N. y Slay, J. (2015). *UNSW-NB15: a comprehensive data set for network intrusion detection systems*. MilCIS.
+- Documentación de scikit-learn: https://scikit-learn.org/stable/
