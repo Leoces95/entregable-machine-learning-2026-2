@@ -1,7 +1,7 @@
 # Evaluación 4 – Machine Learning supervisado y no supervisado sobre UNSW-NB15
 
 **Equipo 1** 
-· Harold Restrepo
+· Harol Restrepo
 · Leonel Martinez 
 · Yulieth Urrego 
 · Jalvi Villegas
